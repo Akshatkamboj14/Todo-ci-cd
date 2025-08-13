@@ -3,17 +3,17 @@ name: React and Spring Boot CI/CD
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-push:
     # Use a GitHub-hosted runner for building and pushing images
     runs-on: ubuntu-latest
-
+    
     outputs:
       backend_image_tag: ${{ steps.push_backend.outputs.image_tag }}
       frontend_image_tag: ${{ steps.push_frontend.outputs.image_tag }}
-
+      
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -23,7 +23,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
+      
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -44,7 +44,7 @@ jobs:
           docker build -t $IMAGE_TAG ./backend/task-manager
           docker push $IMAGE_TAG
           echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
-
+      
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -65,20 +65,22 @@ jobs:
           docker build -t $IMAGE_TAG ./frontend/frontened-k8s
           docker push $IMAGE_TAG
           echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
-
+          
   deploy:
     # Use the self-hosted runner for deployment
     runs-on: akshat-runner
-
+    
     needs: build-and-push
-
+    
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Update Kubernetes Deployments
         run: |
           # Use kubectl to update the image tags for both deployments
           BACKEND_IMAGE=${{ needs.build-and-push.outputs.backend_image_tag }}
           FRONTEND_IMAGE=${{ needs.build-and-push.outputs.frontend_image_tag }}
-
+          
           kubectl set image deployment/spring-backend-deployment spring-backend=$BACKEND_IMAGE
           kubectl set image deployment/react-frontend-deployment react-frontend=$FRONTEND_IMAGE
-
