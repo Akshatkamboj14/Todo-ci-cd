@@ -95,7 +95,7 @@ jobs:
           sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl set image deployment/frontend-deployment frontend=akshat1414/task-manager-frontend:latest
 
   dast-scan:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: deploy
     
     steps:
