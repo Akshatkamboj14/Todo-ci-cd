@@ -64,5 +64,6 @@ jobs:
 
       - name: Update Kubernetes Deployments
         run: |
-          kubectl set image deployment/spring-backend-deployment spring-backend=akshat1414/spring-boot-task:latest
-          kubectl set image deployment/react-frontend-deployment react-frontend=akshat1414/task-manager-frontend:latest
+          KUBECONFIG=/etc/kubernetes/admin.conf kubectl set image deployment/spring-backend-deployment spring-backend=akshat1414/spring-boot-task:latest
+          KUBECONFIG=/etc/kubernetes/admin.conf kubectl set image deployment/react-frontend-deployment react-frontend=akshat1414/task-manager-frontend:latest
+
