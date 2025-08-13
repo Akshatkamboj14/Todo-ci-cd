@@ -1,8 +1,13 @@
 # Stage 1: Build the application with Maven and JDK
 FROM openjdk:17-jdk-alpine AS builder
+
 WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
+
+# Make mvnw executable
+RUN chmod +x ./mvnw
+
 RUN ./mvnw dependency:go-offline
 COPY src ./src
 RUN ./mvnw package -DskipTests
