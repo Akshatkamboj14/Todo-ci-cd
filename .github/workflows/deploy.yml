@@ -43,6 +43,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: frontend/frontend-k8s/package-lock.json
 
+      - name: Run React Linting
+        working-directory: frontend/frontend-k8s
+        run: |
+          npm install
+          npm run lint || true # This ensures the step always succeeds
+          
       - name: Build React Frontend
         working-directory: frontend/frontend-k8s
         run: |
