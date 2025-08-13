@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: akshat1414/spring-boot-task:v1
+        image: akshat1414/spring-boot-task:latest
         ports:
         - containerPort: 8080
         env:
