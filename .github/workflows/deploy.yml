@@ -95,18 +95,20 @@ jobs:
           sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl set image deployment/frontend-deployment frontend=akshat1414/task-manager-frontend:latest
 
   dast-scan:
-    runs-on: self-hosted
+  
+    runs-on: akshat-runner
     needs: deploy
-    
+
     steps:
       - name: Wait for Frontend to be ready
-        run: |
-          # Sleep for a few seconds to let the deployment finish
-          sleep 30
-      
+        run: sleep 30
+  
+      - name: Docker login
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+  
       - name: Run DAST Scan with ZAP
         uses: zaproxy/action-full-scan@v0.5.0
         with:
-          docker-user: ${{ secrets.DOCKER_USERNAME }}
-          docker-password: ${{ secrets.DOCKER_PASSWORD }}
           target: 'http://54.173.121.211:30000'
+          docker_name: 'owasp/zap2docker-stable'
+          fail_action: false
