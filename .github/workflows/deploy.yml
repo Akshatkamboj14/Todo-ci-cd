@@ -55,7 +55,7 @@ jobs:
           docker push akshat1414/task-manager-frontend:latest
           
   deploy:
-    runs-on: akshat-runner
+    runs-on: self-hosted
     needs: build-and-push
     
     steps:
