@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Spring Boot Backend
         run: |
-          cd backend/task-manager
+          cd Todo-ci-cd/backend/task-manager
           mvn clean package -DskipTests
 
       - name: Build and Push Backend Docker Image
@@ -84,4 +84,3 @@ jobs:
           
           kubectl set image deployment/spring-backend-deployment spring-backend=$BACKEND_IMAGE
           kubectl set image deployment/react-frontend-deployment react-frontend=$FRONTEND_IMAGE
-
