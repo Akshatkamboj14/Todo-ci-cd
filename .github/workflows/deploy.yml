@@ -84,3 +84,4 @@ jobs:
           
           kubectl set image deployment/spring-backend-deployment spring-backend=$BACKEND_IMAGE
           kubectl set image deployment/react-frontend-deployment react-frontend=$FRONTEND_IMAGE
+
