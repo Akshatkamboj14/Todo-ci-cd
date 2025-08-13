@@ -31,6 +31,11 @@ jobs:
         run: |
           mvn clean package -DskipTests
 
+      - name: Run Spring Boot SCA
+        working-directory: backend/task-manager
+        run: |
+          mvn org.owasp:dependency-check-maven:check || true
+      
       - name: Build and Push Backend Docker Image
         run: |
           docker build -t akshat1414/spring-boot-task:latest backend/task-manager
