@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          path: .  # Explicitly check out code to the root of the workspace
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -77,6 +79,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          path: . # Explicitly check out code to the root of the workspace
 
       - name: Update Kubernetes Deployments
         run: |
