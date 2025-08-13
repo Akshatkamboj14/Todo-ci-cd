@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Spring Boot Backend
         run: |
-          cd Todo-ci-cd/backend/task-manager
+          cd backend/task-manager
           mvn clean package -DskipTests
 
       - name: Build and Push Backend Docker Image
