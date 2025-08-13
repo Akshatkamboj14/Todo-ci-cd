@@ -56,15 +56,13 @@ jobs:
           
   deploy:
     runs-on: akshat-runner
-    
     needs: build-and-push
     
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-        
+
       - name: Update Kubernetes Deployments
         run: |
-          # Use kubectl to update the image tags for both deployments
           kubectl set image deployment/spring-backend-deployment spring-backend=akshat1414/spring-boot-task:latest
           kubectl set image deployment/react-frontend-deployment react-frontend=akshat1414/task-manager-frontend:latest
