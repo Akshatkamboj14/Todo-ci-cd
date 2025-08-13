@@ -32,13 +32,13 @@ jobs:
           cache: 'maven'
 
       - name: Build Spring Boot Backend
-        working-directory: ./backend/task-manager
+        working-directory: backend/task-manager
         run: |
           mvn clean package -DskipTests
 
       - name: Build and Push Backend Docker Image
         id: push_backend
-        working-directory: ./backend/task-manager
+        working-directory: backend/task-manager
         run: |
           # Use a unique tag based on the Git commit SHA
           IMAGE_TAG="akshat1414/spring-boot-task:${{ github.sha }}"
@@ -53,14 +53,14 @@ jobs:
           cache: 'npm'
 
       - name: Build React Frontend
-        working-directory: ./frontend/frontened-k8s
+        working-directory: frontend/frontened-k8s
         run: |
           npm install
           npm run build
 
       - name: Build and Push Frontend Docker Image
         id: push_frontend
-        working-directory: ./frontend/frontened-k8s
+        working-directory: frontend/frontened-k8s
         run: |
           # Use a unique tag based on the Git commit SHA
           IMAGE_TAG="akshat1414/task-manager-frontend:${{ github.sha }}"
