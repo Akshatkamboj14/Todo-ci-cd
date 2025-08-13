@@ -32,7 +32,7 @@ jobs:
           cache: 'maven'
 
       - name: Build Spring Boot Backend
-        working-directory: backend/task-manager
+        working-directory: backened/task-manager
         run: |
           mvn clean package -DskipTests
 
