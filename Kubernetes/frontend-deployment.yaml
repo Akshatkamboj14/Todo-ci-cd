@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: akshat1414/task-manager-frontend:v3
+        image: akshat1414/task-manager-frontend:latest
         ports:
         - containerPort: 80
