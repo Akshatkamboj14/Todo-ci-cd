@@ -32,13 +32,13 @@ jobs:
           cache: 'maven'
 
       - name: Build Spring Boot Backend
-        working-directory: backened/task-manager
+        working-directory: backend/task-manager
         run: |
           mvn clean package -DskipTests
 
       - name: Build and Push Backend Docker Image
         id: push_backend
-        working-directory: backened/task-manager
+        working-directory: backend/task-manager
         run: |
           # Use a unique tag based on the Git commit SHA
           IMAGE_TAG="akshat1414/spring-boot-task:${{ github.sha }}"
@@ -51,6 +51,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: frontend/frontened-k8s/package-lock.json # Corrected path
 
       - name: Build React Frontend
         working-directory: frontend/frontened-k8s
