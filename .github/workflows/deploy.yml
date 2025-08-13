@@ -96,18 +96,27 @@ jobs:
 
   dast-scan:
     runs-on: akshat-runner
+    needs: deploy
+    
     steps:
+      
       - name: Checkout repo
         uses: actions/checkout@v4
   
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-  
+
+      - name: Wait for Frontend to be ready
+        run: |
+          sleep 30
+      
       - name: Pre-pull OWASP ZAP Docker image
         run: docker pull owasp/zap2docker-stable
   
       - name: Run OWASP ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.5.0
         with:
-          target: 'http://54.173.121.211:30000'
-          docker_name: 'owasp/zap2docker-stable'
+         target: 'http://54.173.121.211:30000'
+         docker_name: 'owasp/zap2docker-stable'
+
+      
