@@ -98,6 +98,9 @@ jobs:
   dast-scan:
     runs-on: self-hosted
     needs: deploy
+    permissions:
+      issues: write
+      contents: read
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
