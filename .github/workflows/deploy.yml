@@ -26,6 +26,11 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Run Java Linting without Maven Config
+        run: |
+          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.15.0/checkstyle-10.15.0-all.jar
+          java -jar checkstyle-10.15.0-all.jar -c /google_checks.xml backend/task-manager/src/main/java
+      
       # - name: Run Spring Boot SCA
       #   working-directory: backend/task-manager
       #   run: |
@@ -44,6 +49,10 @@ jobs:
         run: |
           mvn clean package -DskipTests
             
+      - name: Run Spring Boot Unit Tests
+        working-directory: backend/task-manager
+        run: mvn test
+      
       - name: Build and Push Backend Docker Image
         run: |
           docker build -t akshat1414/spring-boot-task:latest backend/task-manager
