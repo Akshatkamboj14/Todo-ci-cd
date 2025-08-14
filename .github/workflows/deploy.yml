@@ -36,13 +36,13 @@ jobs:
       #   run: |
       #     mvn org.owasp:dependency-check-maven:check || true     # it is downloading a database vulnerbility data for dependency.
       
-      # - name: Run Spring Boot SAST with Snyk
-      #   uses: snyk/actions/maven@master
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      #   with:
-      #     args: --all-projects
-      #   continue-on-error: true       #need a token, scans code
+      - name: Run Spring Boot SAST with Snyk
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --all-projects
+        continue-on-error: true       #need a token, scans code
       
       - name: Build and Push Backend Docker Image
         run: |
@@ -68,13 +68,13 @@ jobs:
           npm install
           npm run build
 
-      # - name: Run React SAST with Snyk
-      #   uses: snyk/actions/node@master
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      #   with:
-      #     args: --all-projects
-      #   continue-on-error: true         #need a token - limited
+      - name: Run React SAST with Snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --all-projects
+        continue-on-error: true         #need a token - limited
       
       - name: Build and Push Frontend Docker Image
         run: |
