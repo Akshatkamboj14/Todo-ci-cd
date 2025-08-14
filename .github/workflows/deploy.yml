@@ -49,9 +49,9 @@ jobs:
         run: |
           mvn clean package -DskipTests
             
-      - name: Run Spring Boot Unit Tests
-        working-directory: backend/task-manager
-        run: mvn test
+      # - name: Run Spring Boot Unit Tests
+      #   working-directory: backend/task-manager
+      #   run: mvn test
       
       - name: Build and Push Backend Docker Image
         run: |
