@@ -26,11 +26,6 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build Spring Boot Backend
-        working-directory: backend/task-manager
-        run: |
-          mvn clean package -DskipTests
-
       # - name: Run Spring Boot SCA
       #   working-directory: backend/task-manager
       #   run: |
@@ -44,6 +39,11 @@ jobs:
           args: --all-projects
         continue-on-error: true       #need a token, scans code
       
+      - name: Build Spring Boot Backend
+        working-directory: backend/task-manager
+        run: |
+          mvn clean package -DskipTests
+            
       - name: Build and Push Backend Docker Image
         run: |
           docker build -t akshat1414/spring-boot-task:latest backend/task-manager
@@ -62,12 +62,6 @@ jobs:
           npm install
           npm run lint || true # This ensures the step always succeeds
           
-      - name: Build React Frontend
-        working-directory: frontend/frontend-k8s
-        run: |
-          npm install
-          npm run build
-
       - name: Run React SAST with Snyk
         uses: snyk/actions/node@master
         env:
@@ -76,6 +70,12 @@ jobs:
           args: --all-projects
         continue-on-error: true         #need a token - limited
       
+      - name: Build React Frontend
+        working-directory: frontend/frontend-k8s
+        run: |
+          npm install
+          npm run build
+
       - name: Build and Push Frontend Docker Image
         run: |
           docker build -t akshat1414/task-manager-frontend:latest frontend/frontend-k8s
