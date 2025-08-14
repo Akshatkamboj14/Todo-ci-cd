@@ -88,35 +88,35 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
+      
       - name: Update Kubernetes Deployments
         run: |
           sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl set image deployment/backend-deployment backend=akshat1414/spring-boot-task:latest
           sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl set image deployment/frontend-deployment frontend=akshat1414/task-manager-frontend:latest
 
+
   dast-scan:
     runs-on: self-hosted
-    needs: deploy
-    
     steps:
-      
-      - name: Checkout repo
-        uses: actions/checkout@v4
-  
-      - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Wait for Frontend to be ready
-        run: |
-          sleep 30
-      
-      - name: Pre-pull OWASP ZAP Docker image
-        run: docker pull owasp/zap2docker-stable
-  
-      - name: Run OWASP ZAP Full Scan
-        uses: zaproxy/action-full-scan@v0.5.0
-        with:
-         target: 'http://54.173.121.211:30000'
-         docker_name: 'owasp/zap2docker-stable'
+    - name: Docker login
+      run: |
+        echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+    - name: Run OWASP ZAP scan
+      run: |
+        docker run --rm \
+          -v $(pwd):/zap/wrk/:rw \
+          -t owasp/zap2docker-stable zap-baseline.py \
+          -t http://your-app-url \
+          -r zap_report.html
+
+    - name: Upload ZAP report
+      uses: actions/upload-artifact@v4
+      with:
+        name: zap-report
+        path: zap_report.html
 
       
